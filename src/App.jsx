@@ -1,5 +1,3 @@
-import 'bulma/css/bulma.css';
-import './App.scss';
 import { useState } from 'react';
 
 export const goods = [
@@ -16,48 +14,42 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [product, setProduct] = useState('Jam');
+  const [selectedGood, setSelectedGood] = useState('Jam');
 
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
-        {product === '' ? 'No goods Selected' : `${product} is selected`}
-        {product && (
-          <button
-            onClick={() => setProduct('')}
-            data-cy="ClearButton"
-            type="button"
-            className="delete ml-3"
-          />
-        )}
+        {selectedGood ? `${selectedGood} is selected` : 'No goods selected'}
       </h1>
 
-      <table className="table">
-        <ul>
+      <table className="table is-fullwidth">
+        <tbody>
           {goods.map(good => (
-            <li
+            <tr
               key={good}
               data-cy="Good"
-              className={good === product ? 'has-background-success-light' : ''}
+              className={
+                good === selectedGood ? 'has-background-success-light' : ''
+              }
             >
               <td className="is-vcentered">
-                {product === '' && (
+                {good !== selectedGood && (
                   <button
                     data-cy="AddButton"
                     type="button"
                     className="button is-success"
-                    onClick={() => setProduct(good)}
+                    onClick={() => setSelectedGood(good)}
                   >
                     +
                   </button>
                 )}
 
-                {good === product && (
+                {good === selectedGood && (
                   <button
                     data-cy="RemoveButton"
                     type="button"
                     className="button is-info"
-                    onClick={() => setProduct('')}
+                    onClick={() => setSelectedGood('')}
                   >
                     -
                   </button>
@@ -67,9 +59,9 @@ export const App = () => {
               <td data-cy="GoodTitle" className="is-vcentered">
                 {good}
               </td>
-            </li>
+            </tr>
           ))}
-        </ul>
+        </tbody>
       </table>
     </main>
   );
